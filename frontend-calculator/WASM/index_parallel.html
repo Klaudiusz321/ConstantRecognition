@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constant Recognizer (Parallel)</title>
+    <link rel="stylesheet" href="rpn.css">
+
+
+</head>
+<body>
+    <h1 id="constant-recognizer-experimental" class="title">Constant Recognizer (experimental)</h1>
+
+    <p>Detected <span id="detectedCPUs"></span> logical CPU's.</p>
+
+    <div>
+        <label for="threadCount" title="Adjust this slider to set the number of threads used for calculation">
+            Threads: <span id="threadCountValue">Auto</span>
+        </label>
+        <input id="threadCount" type="range" min="1" max="32" step="1">
+        <label><input type="checkbox" id="autoThreads" checked> Auto</label>
+    </div>
+
+  <p>
+   Enter <B>ANY</b> numeric in the first box to identify or approximate.
+  </p>
+ 
+   <p>
+     <input class="input_box" id="numberInput" type="text" placeholder="137.035999...">
+     = <input id="resultInfix" type="text" readonly placeholder="sqrt(137^2+pi^2)">
+     = <input id="resultNumeric" type="text" readonly placeholder="137.036...">
+   </p>
+    <p>
+        <label for="searchDepth" title="Adjust this slider to set the maximum search depth (2-9). This is equivalent to the number of keystrokes on calculator.">
+            Max Code Length K= <span id="searchDepthValue">6</span>
+        </label>
+        <input id="searchDepth" type="range" value="6" min="2" max="9" step="1">
+    </p>
+
+   
+    <p> Search target is z = <span id="z" type="text"> </span> &plusmn; <span id="delta_z"> </span></p>
+    <p> Δz =  <span id="abs_delta_z"> </span>, δz = Δz/z = <span id="rel_delta_z"> </span></p>
+
+
+    <button id="calculateButton">Identify constant </button>
+
+
+  <p>Time taken: <span id="timing"></span></p>
+
+    <p><strong>RPN:</strong> <span id="resultRPN"></span></p>
+    <p><em>Mathematica:</em> <span id="resultMathematica"></span></p>
+
+
+
+    <h3>Failed search intermediate results</h3>
+
+<div id="table-filters">
+  <label><input type="checkbox" value="SUCCESS"      checked> Successfully identified</label>
+  <label><input type="checkbox" value="FAILURE"      checked> Best so far</label>
+  <label><input type="checkbox" value="K_BEST"              > Best for length K</label>
+  <label><input type="checkbox" value="INTERMEDIATE"        > Running intermediate result</label>
+  <label><input type="checkbox" value="ABORTED"             > Aborted pointless search</label>
+  <button id="clearFilters">Clear Filters</button>
+</div>
+     <table id="resultsTable">
+       <thead>
+         <tr>
+           <th>CPU ID</th>
+           <th title="RPN code lenght. Lower is better"><b>K</b>omplexity</th>
+           <th>Numeric result</th>
+           <th>Mathematica</th>
+           <th>Search status</th>
+           <th title="Smaller is better"> Relative error</th>
+           <th title="Larger and >>1 is better"> Compression ratio</th>
+           <th title="Smaller is better"> Hamming distance</th>
+           <th>RPN code</th>
+         </tr>
+       </thead>
+       <tbody>
+       </tbody>
+     </table>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+    <!-- Load your main JavaScript module -->
+    <script type="module" src="main_parallel.js"></script>
+
+
+<!-- <script src="jquery-3.5.1.js"></script> -->
+<!-- <script src="jquery.dataTables.js"></script> -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+<script>
+    $(document).ready(function() {
+        window.dataTable = $('#resultsTable').DataTable({
+            "order": [],
+            "pageLength": 32,
+            "columnDefs": [
+                { "type": "num", "targets": [0, 1, 2, 5, 6] }
+            ],
+            "rowGroup": {
+               //dataSrc: 'status'
+               dataSrc: 4
+             }
+        });
+    });
+</script>
+</body>
+</html>

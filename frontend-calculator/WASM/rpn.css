@@ -1,0 +1,41 @@
+.title {
+    font-size: 24px; /* Or larger, depending on your preference */
+    text-align: center;
+    margin-top: 10px; /* Adjust as needed */
+}
+
+.input-box {
+    width: 90%; /* Makes it almost screen-wide */
+    font-size: 18px; /* Larger font for better readability */
+    margin: 10px auto; /* Centers the box with some margin */
+    padding: 10px; /* Adds some space inside the box */
+}
+
+.content {
+    width: 100%;
+    padding: 10px;
+}
+
+img {
+    max-width: 100%; /* Ensures images are never larger than the screen */
+    height: auto; /* Keeps the aspect ratio of images */
+}
+
+
+.calculatingButton {
+  /* Add styles to indicate the button is pressed */
+  background-color: #ccc;
+}
+.spinner {
+  border: 4px solid rgba(0,0,0,0.1);
+  border-radius: 50%;
+  border-top: 4px solid #333;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+

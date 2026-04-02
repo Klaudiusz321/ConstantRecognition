@@ -1,0 +1,30 @@
+Benchmarks using single-core index.html with input 123456 and MaxCodeLength set to K=6.
+
+emcc -v
+emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.5 ()
+Ubuntu clang version 13.0.1-2ubuntu2.2
+Target: wasm32-unknown-emscripten
+
+EMCC := emcc
+CFLAGS := -Wall -O2
+EMFLAGS := -s WASM=1
+
+AMD Ryzen 9 5900X
+
+2024-08-18
+
+Firefox: Time taken: 21189 ms
+Opera:   Time taken: 41869 ms
+Brave:   Time taken: 41147 ms
+Chrome:  Time taken: 41002 m
+Edge:    Time taken: 41038 ms
+
+2025-01-28
+
+Firefox: Time taken: 5247 ms
+Opera:   Time taken: 5827 ms
+Brave:   Time taken: 5918 ms
+Chrome:  Time taken: -
+Edge:    Time taken: 5994 ms
+
+

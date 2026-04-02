@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WASM RPN Inverse Calculator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="rpn.css">
+</head>
+<body>
+
+
+<h1 class="title"> Constant Recognizer </h1>
+
+  <p>
+   Enter <B>ANY</b> numeric in the first box to identify or approximate.
+  </p>
+ 
+   <p>
+     <input class="input_box" id="numberInput" type="number" step="any" placeholder="137.035999...">
+     = <input id="resultInfix" type="text" readonly placeholder="sqrt(137^2+pi^2)">
+     = <input id="resultNumeric" type="text" readonly placeholder="137.036...">
+   </p>
+
+
+    <label for="searchDepth" title="Adjust this slider to set the maximum search depth (2-9). This is equivalent to the number of keystrokes on calculator.">
+        Max Code Length: <span id="searchDepthValue">5</span>
+    </label>
+    <input id="searchDepth" type="range" value="5" min="2" max="9" step="1">
+
+
+
+  <p>
+  <button id="calculateButton">Identify constant</button>
+  </p>
+
+  <p>Time taken: <span id="timing"></span></p>
+
+  <p>
+    <b>RPN</b>: <span id="resultRPN"></span><BR>
+    <i>Mathematica</i>: <span id="resultMathematica"></span><BR>
+  </p>
+  
+  <p> Try: mathematical constants, elementary numbers, physical constants, dates, phone numbers etc. </p>
+
+<h1> How it works? </h1>
+
+
+  <p>
+  Search use the "standard" 36-button scientific RPN calculator. Usually, you enter formula, and get result. Here it works 
+  in opposite way:  you enter result, and formula comes out. 
+ </p>
+  <p>
+  <IMG width=600px src="CALC4.png"> 
+  </p>
+ 
+  <p> 
+   Imagine famous gedeanken experiment by Stanisław Lem, where room full of apes (or penguins) is randomly pressing all possible button 
+   combinations until desired result is found. Only, the calculator is not real, but virtual, there are no apes, but CPU's, and order is not random,
+   but sequential, with progressively increased sequence length. 
+  </p>
+
+
+  <p>
+  Enter any real number to find out, if some sequence of the above buttons could re-discover it.
+  Use floating-point format, e.g:
+  <UL>
+   <LI> 1e3
+   <LI> 0.22222222222
+   <LI> 137
+   <LI> -0.0833333333333
+   <LI> 1234 
+   <LI> 1111
+  </UL> 
+  </p>
+  
+  
+<h1> NOTE </h1>
+  <p>
+  User now can use slider to change default code length of 5, with runtime of roughly 1 second. 
+  Every step up increase search time 36x, so be patient. 
+  Search is performed using single thread and real numbers. 
+  To use longer sequences, custom calculators, complex numbers, recognition of functions and massively 
+  multi-threaded search, try experimental <a href="https://th.if.uj.edu.pl/~odrzywolek/WASM/index_parallel.html"> parallel version</a>, see <a href="https://github.com/VA00/ConstantRecognition"> native C code on GitHub </a>
+  or contact author at andrzej.odrzywolek@uj.edu.pl. <B> ENJOY! </B> 
+  </p>
+
+
+
+  <p> UPDATED: 2024-09-03 10:27 </p>
+
+<script>
+    // Set up a global promise that will be resolved when the module is ready
+    window.moduleReadyPromise = new Promise((resolve) => {
+        window.moduleReady = resolve;
+    });
+
+    var Module = {
+        onRuntimeInitialized: function() {
+            console.log("WebAssembly runtime initialized");
+            if (window.moduleReady) {
+                window.moduleReady(Module);
+            } else {
+                console.warn("moduleReady function not available yet");
+            }
+        }
+    };
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+<!-- Load the Emscripten generated JavaScript file -->
+<script src="rpn_function.js"></script>
+
+<!-- Load your main JavaScript module -->
+<script type="module" src="main.js"></script>
+
+</body>
+</html>
