@@ -85,7 +85,7 @@ __device__ __forceinline__ ComplexT apply_unary(int op, ComplexT x)
         case 0:  return thrust::log(x);
         case 1:  return thrust::exp(x);
         case 2:  return ComplexT(1.0, 0.0) / x;
-        case 3:  return (thrust::abs(x.imag()) < 1e-9) ? ComplexT(tgamma(x.real()), 0) : ComplexT(CUDART_NAN, CUDART_NAN); 
+        case 3:  if (fabs(x.imag()) < 1e-9) { return ComplexT(tgamma(x.real()), 0.0); } else { return ComplexT(0.0, 0.0); } 
         case 4:  return thrust::sqrt(x);
         case 5:  return x * x;
         case 6:  return thrust::sin(x);
@@ -100,7 +100,7 @@ __device__ __forceinline__ ComplexT apply_unary(int op, ComplexT x)
         case 15: return thrust::acosh(x);
         case 16: return thrust::tanh(x);
         case 17: return thrust::atanh(x);
-        default: return ComplexT(CUDART_NAN, CUDART_NAN);
+        default: return ComplexT(0.0, 0.0);
     }
 }
 
@@ -112,7 +112,7 @@ __device__ __forceinline__ ComplexT apply_binary(int op, ComplexT a, ComplexT b)
         case 2: return a - b;
         case 3: return a / b;
         case 4: return thrust::pow(a, b);
-        default: return ComplexT(CUDART_NAN, CUDART_NAN);
+        default: return ComplexT(NAN, NAN);
     }
 }
 
